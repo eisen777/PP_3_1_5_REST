@@ -58,6 +58,7 @@ function editModal(id) {
             document.getElementById('editEmail').value = u.email
             document.getElementById('editPassword').value = ''
             document.getElementById('editRoles').selectedIndex = u.role.id - 1
+            //alert(u.roles.role)
         })
     })
 
@@ -196,3 +197,33 @@ function clearAndHideAddForm() {
     document.getElementById("emailAdd").value = "";
     document.getElementById("passwordAdd").value = "";
 }
+
+const URLNavbarAdmin = 'http://localhost:8080/api/admin/users/show';
+const navbarBrandAdmin = document.getElementById('navbarBrandAdmin');
+const tableUserAdmin = document.getElementById('tableAdmin');
+
+function getCurrentAdmin() {
+    fetch(URLNavbarAdmin)
+        .then((res) => res.json())
+        .then((userAdmin) => {
+
+            let rolesStringAdmin = rolesToStringForAdmin(userAdmin.roles);
+            navbarBrandAdmin.innerHTML = `<b><span>${userAdmin.username}</span></b>
+                             <span>with roles:</span>
+                             <span>${rolesStringAdmin}</span>`;
+        });
+}
+
+getCurrentAdmin()
+
+function rolesToStringForAdmin(roles) {
+    let rolesString = '';
+
+    for (const element of roles) {
+        rolesString += (element.name.toString().replace('ROLE_', '') + ', ');
+    }
+    rolesString = rolesString.substring(0, rolesString.length - 2);
+    return rolesString;
+}
+
+

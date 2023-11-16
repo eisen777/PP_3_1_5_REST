@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,6 +18,11 @@ public class RestAdminController {
     @Autowired
     public RestAdminController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/show")
+    public ResponseEntity<User> showInfoUser(Principal principal) {
+        return ResponseEntity.ok(userService.findByUsername(principal.getName()));
     }
     @GetMapping()
     public ResponseEntity<List<User>> showAllUser(){

@@ -62,4 +62,10 @@ public class User implements UserDetails {
         }
        return stringBuilder.toString().replaceAll("ROLE_","").trim();
     }
+
+    public Role getRole() {
+        return roles.stream()
+                .findFirst()
+                .orElse(null);
+    }
 }
